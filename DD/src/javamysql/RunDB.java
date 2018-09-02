@@ -38,7 +38,7 @@ public class RunDB extends Application{
     	        System.out.println ("Database connection established");
     	          
     	        
-    	        try {
+    	        try { 
     	    		
     				BorderPane mainPane = new BorderPane();
     				Group root = new Group();

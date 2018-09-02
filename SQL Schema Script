@@ -1,0 +1,98 @@
+
+
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+-- -----------------------------------------------------
+-- Schema movie_theatre
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema movie_theatre
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `movie_theatre` DEFAULT CHARACTER SET latin1 ;
+USE `movie_theatre` ;
+
+-- -----------------------------------------------------
+-- Table `movie_theatre`.`employees`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_theatre`.`employees` (
+  `employeeNo` INT(11) NOT NULL,
+  `fName` VARCHAR(20) NOT NULL,
+  `lName` VARCHAR(20) NOT NULL,
+  `dateOfBirth` DATE NOT NULL,
+  `address` VARCHAR(60) NOT NULL,
+  `hourlyPay` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`employeeNo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `movie_theatre`.`movies`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_theatre`.`movies` (
+  `movieNo` INT(11) NOT NULL,
+  `title` VARCHAR(45) NOT NULL,
+  `genre` VARCHAR(20) NOT NULL,
+  `rating` VARCHAR(4) NOT NULL,
+  `runtime(mins)` INT(11) NOT NULL,
+  PRIMARY KEY (`movieNo`),
+  UNIQUE INDEX `movieNo_UNIQUE` (`movieNo` ASC))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `movie_theatre`.`theatre`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_theatre`.`theatre` (
+  `theatreNo` INT(11) NOT NULL,
+  `capacity` INT(11) NOT NULL,
+  `floor` INT(11) NOT NULL,
+  PRIMARY KEY (`theatreNo`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+-- -----------------------------------------------------
+-- Table `movie_theatre`.`screenings`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `movie_theatre`.`screenings` (
+  `date` DATE NOT NULL,
+  `time` TIME(4) NOT NULL,
+  `theatreNo` INT(11) NOT NULL,
+  `movieNo` INT(11) NOT NULL,
+  `screenedBy` INT(11) NOT NULL,
+  PRIMARY KEY (`date`, `time`, `theatreNo`),
+  INDEX `movieNo_idx` (`movieNo` ASC),
+  INDEX `theatreNo_idx` (`theatreNo` ASC),
+  INDEX `employeeNo` (`screenedBy` ASC),
+  CONSTRAINT `employeeNo`
+    FOREIGN KEY (`screenedBy`)
+    REFERENCES `movie_theatre`.`employees` (`employeeNo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `movieNo`
+    FOREIGN KEY (`movieNo`)
+    REFERENCES `movie_theatre`.`movies` (`movieNo`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `theatreNo`
+    FOREIGN KEY (`theatreNo`)
+    REFERENCES `movie_theatre`.`theatre` (`theatreNo`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = latin1;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+

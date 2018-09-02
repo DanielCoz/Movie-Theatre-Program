@@ -37,7 +37,7 @@ public class RunDB extends Application{
     	        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/movie_theatre?useLegacyDatetimeCode=false&serverTimezone=GMT","root","root" );
     	        System.out.println ("Database connection established");
     	          
-    	        
+    	         
     	        try { 
     	    		
     				BorderPane mainPane = new BorderPane();
